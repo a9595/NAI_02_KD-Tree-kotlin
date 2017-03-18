@@ -12,15 +12,17 @@ object MainKDTNearest {
     @JvmStatic fun main(args: Array<String>) {
         val kdTree = getKDTreeWithFileData()
 
+        val userInputArray = doubleArrayOf(5.6, 3.0, 4.1, 1.3)
+        val kdNode = kdTree.find_nearest(userInputArray)
+        kdNode?.printNearestN()
+    }
+
+    fun getUserInput() {
         /* println("Enter the co-ordinates of the point: (one after the other)")
          val reader = InputStreamReader(System.`in`)
          val br = BufferedReader(reader)
          val xUserInput = br.readLine().toDouble()
          val yUserInput = br.readLine().toDouble()*/
-
-        val userInputArray = doubleArrayOf(5.6, 3.0, 4.1, 1.3)
-        val kdNode = kdTree.find_nearest(userInputArray)
-        kdNode?.printNearestN()
     }
 
 }
