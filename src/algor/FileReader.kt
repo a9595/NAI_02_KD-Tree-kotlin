@@ -9,7 +9,7 @@ import java.io.IOException
  */
 
 object FileReader {
-    var columnsToReadCount = 4 // don't read last column (name)
+    const val COLUMNS_COUNT = 4 // don't read last column (name)
 
     @Throws(IOException::class)
     @JvmStatic fun main(args: Array<String>) {
@@ -21,9 +21,9 @@ object FileReader {
         val kdTree = KDTree(linesList.size)
 
         for (line in linesList) {
-            var entry = DoubleArray(columnsToReadCount)
+            var entry = DoubleArray(COLUMNS_COUNT)
             val splitList = line.split(",")
-            for (i in 0..columnsToReadCount-1) {
+            for (i in 0..COLUMNS_COUNT -1) {
                 entry[i] = splitList[i].toDouble()
             }
             kdTree.add(entry)

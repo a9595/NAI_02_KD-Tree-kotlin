@@ -1,5 +1,7 @@
 package algor
 
+import algor.FileReader.COLUMNS_COUNT
+
 /**
  * Created by tieorange on 18/03/2017.
  */
@@ -14,9 +16,11 @@ class KDNode(x0: DoubleArray, internal var axis: Int) {
     internal var Left: KDNode?
     internal var Right: KDNode?
 
+    val columnsCount = COLUMNS_COUNT
+
     init {
-        x = DoubleArray(2)
-        for (k in 0..1)
+        x = DoubleArray(columnsCount)
+        for (k in 0..columnsCount-1)
             x[k] = x0[k]
 
         Parent = null
@@ -45,11 +49,11 @@ class KDNode(x0: DoubleArray, internal var axis: Int) {
         //x = new double[2];
         val parent = FindParent(p)
         if (parent != null) {
-            if (equal(p, parent.x, 2))
+            if (equal(p, parent.x, columnsCount))
                 return null
         }
 
-        val newNode = KDNode(p, if (parent!!.axis + 1 < 2)
+        val newNode = KDNode(p, if (parent!!.axis + 1 < columnsCount)
             parent.axis + 1
         else
             0)
@@ -80,5 +84,16 @@ class KDNode(x0: DoubleArray, internal var axis: Int) {
         for (k in 0..dim - 1)
             S += (x1[k] - x2[k]) * (x1[k] - x2[k])
         return S
+    }
+
+    fun printNearestN() {
+        val stringBuilder = StringBuilder().append("(")
+        for (xElement in x) {
+            stringBuilder.append("$xElement, ")
+        }
+        stringBuilder.append(')')
+
+        println("The nearest neighbor is: ")
+        println(stringBuilder.toString())
     }
 }

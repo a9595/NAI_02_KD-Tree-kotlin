@@ -1,10 +1,12 @@
 package algor
 
+import algor.FileReader.COLUMNS_COUNT
+
 /**
  * Created by tieorange on 18/03/2017.
  */
 class KDTree(i: Int) {
-    internal var Root: KDNode? = null
+    internal var root: KDNode? = null
 
     internal var TimeStart: Int = 0
     internal var TimeFinish: Int = 0
@@ -13,46 +15,46 @@ class KDTree(i: Int) {
     internal var d_min: Double = 0.toDouble()
     internal var nearest_neighbour: KDNode? = null
 
-    internal var KD_id: Int = 0
+    internal var kd_id: Int = 0
 
     internal var nList: Int = 0
 
     internal var CheckedNodes: Array<KDNode?>
     internal var checked_nodes: Int = 0
-    internal var List: Array<KDNode?>
+    internal var listNodes: Array<KDNode?>
 
     internal var x_min: DoubleArray
     internal var x_max: DoubleArray
     internal var max_boundary: BooleanArray
     internal var min_boundary: BooleanArray
     internal var n_boundary: Int = 0
+    val columnsCount = COLUMNS_COUNT
 
     init {
-        val size = 2
-        Root = null
-        KD_id = 1
+        root = null
+        kd_id = 1
         nList = 0
-        List = arrayOfNulls<KDNode>(i)
+        listNodes = arrayOfNulls<KDNode>(i)
         CheckedNodes = arrayOfNulls<KDNode>(i)
-        max_boundary = BooleanArray(size)
-        min_boundary = BooleanArray(size)
-        x_min = DoubleArray(size)
-        x_max = DoubleArray(size)
+        max_boundary = BooleanArray(columnsCount)
+        min_boundary = BooleanArray(columnsCount)
+        x_min = DoubleArray(columnsCount)
+        x_max = DoubleArray(columnsCount)
     }
 
     fun add(x: DoubleArray): Boolean {
         if (nList >= 2000000 - 1)
             return false // can't add more points
 
-        if (Root == null) {
-            Root = KDNode(x, 0)
-            Root!!.id = KD_id++
-            List[nList++] = Root
+        if (root == null) {
+            root = KDNode(x, 0)
+            root!!.id = kd_id++
+            listNodes[nList++] = root
         } else {
-            val pNode: KDNode? = Root!!.Insert(x)
+            val pNode: KDNode? = root!!.Insert(x)
             if (pNode != null) {
-                pNode.id = KD_id++
-                List[nList++] = pNode
+                pNode.id = kd_id++
+                listNodes[nList++] = pNode
             }
         }
 
@@ -60,16 +62,16 @@ class KDTree(i: Int) {
     }
 
     fun find_nearest(x: DoubleArray): KDNode? {
-        if (Root == null)
+        if (root == null)
             return null
 
         checked_nodes = 0
-        val parent = Root!!.FindParent(x)
+        val parent = root!!.FindParent(x)
         nearest_neighbour = parent
         if (parent != null) {
-            d_min = Root!!.distance2(x, parent.x, 2)
+            d_min = root!!.distance2(x, parent.x, columnsCount)
 
-            if (parent.equal(x, parent.x, 2))
+            if (parent.equal(x, parent.x, columnsCount))
                 return nearest_neighbour
         }
 
@@ -106,7 +108,7 @@ class KDTree(i: Int) {
             return
         var d = 0
         var dx: Double
-        for (k in 0..1) {
+        for (k in 0..columnsCount - 1) {
             dx = node.x[k] - x[k]
             if (dx > 0) {
                 dx *= dx
@@ -143,7 +145,7 @@ class KDTree(i: Int) {
 
     fun search_parent(parent: KDNode?, x: DoubleArray): KDNode? {
         var parent = parent
-        for (k in 0..1) {
+        for (k in 0..columnsCount - 1) {
             x_max[k] = 0.0
             x_min[k] = x_max[k]
             min_boundary[k] = false
@@ -152,7 +154,7 @@ class KDTree(i: Int) {
         n_boundary = 0
 
         var search_root = parent
-        while (parent != null && n_boundary != 2 * 2) {
+        while (parent != null && n_boundary != columnsCount * columnsCount) {
             check_subtree(parent, x)
             search_root = parent
             parent = parent.Parent
