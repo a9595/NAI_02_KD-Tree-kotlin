@@ -61,21 +61,21 @@ class KDTree(i: Int) {
         return true
     }
 
-    fun find_nearest(x: DoubleArray): KDNode? {
+    fun find_nearest(userInputArray: DoubleArray): KDNode? {
         if (root == null)
             return null
 
         checked_nodes = 0
-        val parent = root!!.FindParent(x)
+        val parent = root!!.FindParent(userInputArray)
         nearest_neighbour = parent
         if (parent != null) {
-            d_min = root!!.distance2(x, parent.x, columnsCount)
+            d_min = root!!.distance2(userInputArray, parent.x, columnsCount)
 
-            if (parent.equal(x, parent.x, columnsCount))
+            if (parent.equal(userInputArray, parent.x, columnsCount))
                 return nearest_neighbour
         }
 
-        search_parent(parent, x)
+        search_parent(parent, userInputArray)
         uncheck()
 
         return nearest_neighbour

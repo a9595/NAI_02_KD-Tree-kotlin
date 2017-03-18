@@ -1,9 +1,7 @@
 package algor
 
 import algor.FileReader.getKDTreeWithFileData
-import java.io.BufferedReader
 import java.io.IOException
-import java.io.InputStreamReader
 
 /**
  * Created by tieorange on 18/03/2017.
@@ -20,7 +18,7 @@ object MainKDTNearest {
          val xUserInput = br.readLine().toDouble()
          val yUserInput = br.readLine().toDouble()*/
 
-        val userInputArray = doubleArrayOf(5.7, 2.5, 5.0, 2.0)
+        val userInputArray = doubleArrayOf(5.6, 3.0, 4.1, 1.3)
         val kdNode = kdTree.find_nearest(userInputArray)
         kdNode?.printNearestN()
     }
