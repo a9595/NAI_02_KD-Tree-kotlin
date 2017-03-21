@@ -1,6 +1,7 @@
 package algor
 
-import algor.FileReader.getKDTreeWithFileData
+import algor.FileReader.getKDTreeWithTrainData
+import algor.FileReader.getTestDataArray
 import java.io.IOException
 
 /**
@@ -10,11 +11,17 @@ object MainKDTNearest {
 
     @Throws(IOException::class)
     @JvmStatic fun main(args: Array<String>) {
-        val kdTree = getKDTreeWithFileData()
+        val kdTree = getKDTreeWithTrainData()
+        val testDataArray = getTestDataArray()
 
-        val userInputArray = doubleArrayOf(5.6, 3.0, 4.1, 1.3)
-        val kdNode = kdTree.find_nearest(userInputArray)
-        kdNode?.printNearestN()
+        performTestData(testDataArray, kdTree)
+    }
+
+    private fun performTestData(testDataArray: List<DoubleArray>, kdTree: KDTree) {
+        for (testDataRow in testDataArray) {
+            val kdNode = kdTree.find_nearest(testDataRow)
+            kdNode?.printNearestN()
+        }
     }
 
     fun getUserInput() {
