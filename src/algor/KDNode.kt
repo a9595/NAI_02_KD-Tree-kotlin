@@ -86,14 +86,14 @@ class KDNode(x0: DoubleArray, internal var axis: Int) {
         return S
     }
 
-    fun printNearestN() {
+    fun printNeighbor(testDataRow: DoubleArray) {
         val stringBuilder = StringBuilder().append("(")
         for (xElement in x) {
             stringBuilder.append("$xElement, ")
         }
         stringBuilder.append(')')
 
-        println("The nearest neighbor is: ")
+        println("The nearest neighbor of: ")
         println(stringBuilder.toString())
     }
 }
