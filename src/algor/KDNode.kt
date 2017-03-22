@@ -20,7 +20,7 @@ class KDNode(x0: DoubleArray, internal var axis: Int) {
 
     init {
         x = DoubleArray(columnsCount)
-        for (k in 0..columnsCount-1)
+        for (k in 0..columnsCount - 1)
             x[k] = x0[k]
 
         Parent = null
@@ -87,13 +87,11 @@ class KDNode(x0: DoubleArray, internal var axis: Int) {
     }
 
     fun printNeighbor(testDataRow: DoubleArray) {
-        val stringBuilder = StringBuilder().append("(")
-        for (xElement in x) {
-            stringBuilder.append("$xElement, ")
-        }
-        stringBuilder.append(')')
+        val xString = arrayToString(x)
+        val testString = arrayToString(testDataRow)
 
-        println("The nearest neighbor of: ")
-        println(stringBuilder.toString())
+        println("Neighbor of: $testString   \n\t\t is: $xString \n")
     }
+
+    fun arrayToString(testDataRow: DoubleArray) = testDataRow.joinToString(transform = Double::toString)
 }
