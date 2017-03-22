@@ -48,5 +48,18 @@ object FileReader {
         return result
     }
 
+    fun getDataLastRows(fileName:String): ArrayList<String> {
+        val resultList = arrayListOf<String>()
+        val linesList = BufferedReader(FileReader(fileName)).readLines()
+
+        for (line in linesList) {
+            val splitList = line.split(",")
+            val lastRow = splitList.last()
+            resultList.add(lastRow)
+        }
+
+        return resultList
+    }
+
 
 }
