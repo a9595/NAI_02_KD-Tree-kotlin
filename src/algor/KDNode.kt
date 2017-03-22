@@ -6,8 +6,8 @@ import algor.FileReader.COLUMNS_COUNT
  * Created by tieorange on 18/03/2017.
  */
 
-class KDNode(x0: DoubleArray, internal var axis: Int) {
-    internal var x: DoubleArray
+class KDNode(dataArray: DoubleArray, internal var axis: Int) {
+    internal var data: DoubleArray
     internal var id: Int = 0
     internal var checked: Boolean = false
     internal var orientation: Boolean = false
@@ -19,9 +19,9 @@ class KDNode(x0: DoubleArray, internal var axis: Int) {
     val columnsCount = COLUMNS_COUNT
 
     init {
-        x = DoubleArray(columnsCount)
+        data = DoubleArray(columnsCount)
         for (k in 0..columnsCount - 1)
-            x[k] = x0[k]
+            data[k] = dataArray[k]
 
         Parent = null
         Right = Parent
@@ -37,7 +37,7 @@ class KDNode(x0: DoubleArray, internal var axis: Int) {
         while (next != null) {
             split = next.axis
             parent = next
-            if (x0[split] > next.x[split])
+            if (x0[split] > next.data[split])
                 next = next.Right
             else
                 next = next.Left
@@ -46,10 +46,10 @@ class KDNode(x0: DoubleArray, internal var axis: Int) {
     }
 
     fun Insert(p: DoubleArray): KDNode? {
-        //x = new double[2];
+        //data = new double[2];
         val parent = FindParent(p)
         if (parent != null) {
-            if (equal(p, parent.x, columnsCount))
+            if (equal(p, parent.data, columnsCount))
                 return null
         }
 
@@ -59,7 +59,7 @@ class KDNode(x0: DoubleArray, internal var axis: Int) {
             0)
         newNode.Parent = parent
 
-        if (p[parent.axis] > parent.x[parent.axis]) {
+        if (p[parent.axis] > parent.data[parent.axis]) {
             parent.Right = newNode
             newNode.orientation = true //
         } else {
@@ -87,10 +87,12 @@ class KDNode(x0: DoubleArray, internal var axis: Int) {
     }
 
     fun printNeighbor(testDataRow: DoubleArray) {
-        val xString = arrayToString(x)
+        val xString = arrayToString(data)
         val testString = arrayToString(testDataRow)
 
-        println("Neighbor of: $testString   \n\t\t is: $xString \n")
+        val floweTrainingSet = FileReader.getFlowerByRow(data, true)
+        val floweTestSet = FileReader.getFlowerByRow(testDataRow, false)
+        println("Neighbor of: $testString - $floweTestSet   \n\t\t is: $xString - $floweTrainingSet \n")
     }
 
     fun arrayToString(testDataRow: DoubleArray) = testDataRow.joinToString(transform = Double::toString)

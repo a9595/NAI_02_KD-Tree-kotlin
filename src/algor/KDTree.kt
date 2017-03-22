@@ -5,14 +5,30 @@ import algor.FileReader.COLUMNS_COUNT
 /**
  * Created by tieorange on 18/03/2017.
  */
-class KDTree(i: Int) {
+class KDTree {
+    constructor(data: List<DoubleArray>) {
+        val size = data.size
+        this.d_min = 0.toDouble()
+        root = null
+        kd_id = 1
+        nList = 0
+        listNodes = arrayOfNulls<KDNode>(size)
+        CheckedNodes = arrayOfNulls<KDNode>(size)
+        max_boundary = BooleanArray(columnsCount)
+        min_boundary = BooleanArray(columnsCount)
+        x_min = DoubleArray(columnsCount)
+        x_max = DoubleArray(columnsCount)
+
+        addAll(data)
+    }
+
     internal var root: KDNode? = null
 
     internal var TimeStart: Int = 0
     internal var TimeFinish: Int = 0
     internal var CounterFreq: Int = 0
 
-    internal var d_min: Double = 0.toDouble()
+    internal var d_min: Double
     internal var nearest_neighbour: KDNode? = null
 
     internal var kd_id: Int = 0
@@ -29,18 +45,6 @@ class KDTree(i: Int) {
     internal var min_boundary: BooleanArray
     internal var n_boundary: Int = 0
     val columnsCount = COLUMNS_COUNT
-
-    init {
-        root = null
-        kd_id = 1
-        nList = 0
-        listNodes = arrayOfNulls<KDNode>(i)
-        CheckedNodes = arrayOfNulls<KDNode>(i)
-        max_boundary = BooleanArray(columnsCount)
-        min_boundary = BooleanArray(columnsCount)
-        x_min = DoubleArray(columnsCount)
-        x_max = DoubleArray(columnsCount)
-    }
 
     fun add(x: DoubleArray): Boolean {
         if (nList >= 2000000 - 1)
@@ -61,6 +65,12 @@ class KDTree(i: Int) {
         return true
     }
 
+    fun addAll(listData: List<DoubleArray>) {
+        for (dataItem in listData) {
+            add(dataItem)
+        }
+    }
+
     fun find_nearest(userInputArray: DoubleArray): KDNode? {
         if (root == null)
             return null
@@ -69,9 +79,9 @@ class KDTree(i: Int) {
         val parent = root!!.FindParent(userInputArray)
         nearest_neighbour = parent
         if (parent != null) {
-            d_min = root!!.distance2(userInputArray, parent.x, columnsCount)
+            d_min = root!!.distance2(userInputArray, parent.data, columnsCount)
 
-            if (parent.equal(userInputArray, parent.x, columnsCount))
+            if (parent.equal(userInputArray, parent.data, columnsCount))
                 return nearest_neighbour
         }
 
@@ -90,10 +100,10 @@ class KDTree(i: Int) {
         set_bounding_cube(node, x)
 
         val dim = node.axis
-        val d = node.x[dim] - x[dim]
+        val d = node.data[dim] - x[dim]
 
         if (d * d > d_min) {
-            if (node.x[dim] > x[dim])
+            if (node.data[dim] > x[dim])
                 check_subtree(node.Left, x)
             else
                 check_subtree(node.Right, x)
@@ -109,7 +119,7 @@ class KDTree(i: Int) {
         var d = 0
         var dx: Double
         for (k in 0..columnsCount - 1) {
-            dx = node.x[k] - x[k]
+            dx = node.data[k] - x[k]
             if (dx > 0) {
                 dx *= dx
                 if (!max_boundary[k]) {
