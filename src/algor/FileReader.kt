@@ -33,20 +33,25 @@ object FileReader {
         val linesList = BufferedReader(FileReader(fileName)).readLines()
 
         for (line in linesList) {
-            var entry = DoubleArray(COLUMNS_COUNT)
-            val splitList = line.split(",")
-            for (i in 0..COLUMNS_COUNT - 1) {
-                entry[i] = when (splitList[i]) {
-                    "Iris-virginica" -> IrisVirginica
-                    "Iris-versicolor" -> IrisVersicolor
-                    "Iris-setosa" -> IrisSetosa
-                    else -> splitList[i].toDouble()
-                }
-            }
+            var entry = splitDataRow(line)
             result.add(entry)
         }
 
         return result
+    }
+
+    fun splitDataRow(line: String): DoubleArray {
+        val entry = DoubleArray(COLUMNS_COUNT)
+        val splitList = line.split(",")
+        for (i in 0..COLUMNS_COUNT - 1) {
+            entry[i] = when (splitList[i]) {
+                "Iris-virginica" -> IrisVirginica
+                "Iris-versicolor" -> IrisVersicolor
+                "Iris-setosa" -> IrisSetosa
+                else -> splitList[i].toDouble()
+            }
+        }
+        return entry
     }
 
     fun getTestDataArray(): List<DoubleArray> {

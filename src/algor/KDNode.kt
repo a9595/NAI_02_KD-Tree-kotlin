@@ -95,7 +95,7 @@ class KDNode(dataArray: DoubleArray, internal var axis: Int) {
         val isCorrectFlower = flowerTestSet == flowerTrainingSet
 
         println("$isCorrectFlower Neighbor of: $testString - $flowerTestSet   " +
-                "\n\t\t is: $xString - $flowerTrainingSet \n")
+                "\n\t\t\t  is: $xString - $flowerTrainingSet \n")
         return isCorrectFlower
     }
 
