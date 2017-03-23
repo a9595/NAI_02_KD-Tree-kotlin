@@ -1,7 +1,6 @@
 package algor
 
 import algor.FileReader.getDataArray
-import algor.FileReader.getTestDataArray
 import java.io.IOException
 
 /**
@@ -21,7 +20,7 @@ object MainKDTNearest {
     private fun performTestData(testDataArray: List<DoubleArray>, kdTree: KDTree) {
         for (testDataRow in testDataArray) {
             val kdNode = kdTree.find_nearest(testDataRow)
-            kdNode?.printNeighbor(testDataRow)
+            val isCorrect = kdNode?.printNeighbor(testDataRow)
         }
     }
 

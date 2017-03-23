@@ -86,13 +86,17 @@ class KDNode(dataArray: DoubleArray, internal var axis: Int) {
         return S
     }
 
-    fun printNeighbor(testDataRow: DoubleArray) {
+    fun printNeighbor(testDataRow: DoubleArray): Boolean {
         val xString = arrayToString(data)
         val testString = arrayToString(testDataRow)
 
-        val floweTrainingSet = FileReader.getFlowerByRow(data, true)
-        val floweTestSet = FileReader.getFlowerByRow(testDataRow, false)
-        println("Neighbor of: $testString - $floweTestSet   \n\t\t is: $xString - $floweTrainingSet \n")
+        val flowerTrainingSet = FileReader.getFlowerByRow(data, true)
+        val flowerTestSet = FileReader.getFlowerByRow(testDataRow, false)
+        val isCorrectFlower = flowerTestSet == flowerTrainingSet
+
+        println("$isCorrectFlower Neighbor of: $testString - $flowerTestSet   " +
+                "\n\t\t is: $xString - $flowerTrainingSet \n")
+        return isCorrectFlower
     }
 
     fun arrayToString(testDataRow: DoubleArray) = testDataRow.joinToString(transform = Double::toString)

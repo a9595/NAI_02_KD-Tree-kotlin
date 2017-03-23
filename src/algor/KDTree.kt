@@ -47,7 +47,7 @@ class KDTree {
     val columnsCount = COLUMNS_COUNT
 
     fun add(x: DoubleArray): Boolean {
-        if (nList >= 2000000 - 1)
+        if (nList >= 4)
             return false // can't add more points
 
         if (root == null) {

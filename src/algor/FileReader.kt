@@ -26,7 +26,6 @@ object FileReader {
 
     @Throws(IOException::class)
     @JvmStatic fun main(args: Array<String>) {
-//        getDataArray()
     }
 
     fun getDataArray(fileName: String): List<DoubleArray> {
