@@ -30,7 +30,7 @@ class KDNode(dataArray: DoubleArray, internal var axis: Int) {
         id = 0
     }
 
-    fun FindParent(x0: DoubleArray): KDNode? {
+    fun findParent(x0: DoubleArray): KDNode? {
         var parent: KDNode? = null
         var next: KDNode? = this
         var split: Int
@@ -45,9 +45,9 @@ class KDNode(dataArray: DoubleArray, internal var axis: Int) {
         return parent
     }
 
-    fun Insert(p: DoubleArray): KDNode? {
+    fun insert(p: DoubleArray): KDNode? {
         //data = new double[2];
-        val parent = FindParent(p)
+        val parent = findParent(p)
         if (parent != null) {
             if (equal(p, parent.data, columnsCount))
                 return null

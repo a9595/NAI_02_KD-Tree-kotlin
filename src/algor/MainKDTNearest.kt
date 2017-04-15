@@ -1,6 +1,5 @@
 package algor
 
-import algor.FileReader.COLUMNS_COUNT
 import algor.FileReader.getDataArray
 import algor.FileReader.splitDataRow
 import java.io.IOException

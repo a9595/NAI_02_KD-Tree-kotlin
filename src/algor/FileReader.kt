@@ -93,7 +93,7 @@ object FileReader {
             IrisVirginica -> "Iris-virginica"
             IrisVersicolor -> "Iris-versicolor"
             IrisSetosa -> "Iris-setosa"
-            else -> "Unknown type :("
+            else -> ""
         }
     }
 

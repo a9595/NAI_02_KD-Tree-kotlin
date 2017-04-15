@@ -6,6 +6,8 @@ import algor.FileReader.COLUMNS_COUNT
  * Created by tieorange on 18/03/2017.
  */
 class KDTree {
+    private val LIMIT = 10
+
     constructor(data: List<DoubleArray>) {
         val size = data.size
         this.d_min = 0.toDouble()
@@ -46,16 +48,17 @@ class KDTree {
     internal var n_boundary: Int = 0
     val columnsCount = COLUMNS_COUNT
 
-    fun add(x: DoubleArray): Boolean {
-        if (nList >= 4)
+
+    fun add(dataArray: DoubleArray): Boolean {
+        if (nList >= LIMIT)
             return false // can't add more points
 
         if (root == null) {
-            root = KDNode(x, 0)
+            root = KDNode(dataArray, 0)
             root!!.id = kd_id++
             listNodes[nList++] = root
         } else {
-            val pNode: KDNode? = root!!.Insert(x)
+            val pNode: KDNode? = root!!.insert(dataArray)
             if (pNode != null) {
                 pNode.id = kd_id++
                 listNodes[nList++] = pNode
@@ -76,7 +79,7 @@ class KDTree {
             return null
 
         checked_nodes = 0
-        val parent = root!!.FindParent(userInputArray)
+        val parent = root!!.findParent(userInputArray)
         nearest_neighbour = parent
         if (parent != null) {
             d_min = root!!.distance2(userInputArray, parent.data, columnsCount)
